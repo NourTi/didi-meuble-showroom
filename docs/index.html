@@ -25,8 +25,8 @@
       <section class="contact" id="contact"><div><p class="eyebrow">زيارة / اتصال</p><h2>الورشة في الوادي.</h2><p>حي المصاعبة بالقرب من بلدية الوادي، الوادي، الجزائر.</p><a class="phone" href="tel:+213699298059">+213 699 29 80 59</a><a class="button" href="https://wa.me/213699298059">تواصل عبر WhatsApp</a></div><div><p>الاستلام من الورشة متاح بعد التأكيد. للتوصيل، أخبرنا بالولاية والبلدية وسنتواصل معك لتأكيد التفاصيل.</p></div></section>
       <footer class="footer"><div class="mark">DIDI<br /><em>MEUBLE</em></div><small>© 2026 Didi Meuble · El Oued, Algeria</small></footer>
     </main>
-    <script src="https://cdn.jsdelivr.net/npm/three@0.161.0/build/three.min.js"></script>
-    <script>
+    <script type="module">
+      import * as THREE from './assets/three.module.min.js';
       (() => {
         const canvas=document.getElementById('three-stage');
         const renderer=new THREE.WebGLRenderer({canvas,antialias:true,alpha:true});
