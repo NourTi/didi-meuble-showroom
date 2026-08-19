@@ -29,6 +29,6 @@
 - [x] Confirm the renewed GitHub integration now accepts repository content and settings writes before completing the export.
 - [x] Enable GitHub Pages in the repository settings, then rerun and verify the committed Pages deployment workflow.
 - [x] Trigger the newly enabled Pages workflow and verify the public presentation URL loads correctly.
-- [ ] Audit and remove visible Manus attribution, demo-provider references, and unnecessary access-code exposure from client-facing pages and outreach copy.
-- [ ] Repair the GitHub Pages presentation so it opens the Didi Meuble proposal cleanly and links to the live site without revealing platform branding.
-- [ ] Push and verify the clean GitHub Pages presentation and public repository description after the attribution removal.
+- [x] Audit and remove visible Manus attribution, demo-provider references, and unnecessary access-code exposure from client-facing pages and outreach copy.
+- [x] Repair the GitHub Pages presentation as a clean standalone Didi Meuble showroom with direct WhatsApp contact and no platform-domain exposure.
+- [x] Push and verify the clean GitHub Pages presentation and public repository description after the attribution removal.
