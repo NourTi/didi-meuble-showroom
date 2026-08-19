@@ -33,7 +33,7 @@
         renderer.setPixelRatio(Math.min(window.devicePixelRatio,2));
         renderer.shadowMap.enabled=true;
         const scene=new THREE.Scene();
-        const camera=new THREE.PerspectiveCamera(34,1,.1,100);camera.position.set(6,4.4,7.4);
+        const camera=new THREE.PerspectiveCamera(34,1,.1,100);camera.position.set(6,4.4,7.4);camera.lookAt(0,0,0);
         scene.add(new THREE.AmbientLight(0xffebcc,1.7));
         const key=new THREE.DirectionalLight(0xffd49a,3.2);key.position.set(5,7,4);key.castShadow=true;scene.add(key);
         const fill=new THREE.PointLight(0xc17437,20,15);fill.position.set(-4,2,-3);scene.add(fill);
