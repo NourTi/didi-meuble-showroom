@@ -10,3 +10,8 @@
 - [x] Configure crawler-visible metadata, JSON-LD, sitemap, robots policy, and security headers.
 - [x] Optimize 3D loading, images, typography, motion, semantic HTML, keyboard interactions, and responsive presentation.
 - [x] Run final unit, type, production-build, desktop, and mobile visual checks; then save the completed project checkpoint.
+- [x] Diagnose and resolve the reported production no-show/load failure, including startup, route, runtime, and asset checks.
+- [x] Replace generic or placeholder-facing catalog visuals with Didi’s authentic furniture imagery and real workshop context.
+- [x] Rebuild the hero around actual Didi furniture, a stronger Algerian craft identity, and a more distinctive non-template visual system.
+- [x] Implement a robust, genuine local Three.js product experience that does not depend on a fragile remote script.
+- [x] Re-run production, desktop, and mobile verification after the repair; save a new stable checkpoint.

@@ -33,7 +33,7 @@ async function startServer() {
   const server = createServer(app);
   app.disable("x-powered-by");
   app.use((req, res, next) => {
-    res.setHeader("Content-Security-Policy", ["default-src 'self'", "base-uri 'self'", "object-src 'none'", "frame-ancestors 'none'", "form-action 'self'", "script-src 'self' 'unsafe-inline' https://unpkg.com https://*.manus.computer https://*.manus.im", "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com", "font-src 'self' data: https://fonts.gstatic.com", "img-src 'self' data: https://*.manus.computer https://*.manus.space", "connect-src 'self' https://*.manus.computer https://*.manus.im"].join("; "));
+    res.setHeader("Content-Security-Policy", ["default-src 'self'", "base-uri 'self'", "object-src 'none'", "frame-ancestors 'none'", "form-action 'self'", "script-src 'self' 'unsafe-inline' https://*.manus.computer https://*.manus.im", "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com", "font-src 'self' data: https://fonts.gstatic.com", "img-src 'self' data: https://*.manus.computer https://*.manus.space https://*.cloudfront.net", "connect-src 'self' https://*.manus.computer https://*.manus.im"].join("; "));
     res.setHeader("X-Content-Type-Options", "nosniff"); res.setHeader("X-Frame-Options", "DENY"); res.setHeader("Referrer-Policy", "strict-origin-when-cross-origin"); res.setHeader("Permissions-Policy", "camera=(), geolocation=(), microphone=()");
     if (req.secure || req.get("x-forwarded-proto") === "https") res.setHeader("Strict-Transport-Security", "max-age=31536000; includeSubDomains");
     next();
