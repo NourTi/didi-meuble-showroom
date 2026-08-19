@@ -32,3 +32,7 @@
 - [x] Audit and remove visible Manus attribution, demo-provider references, and unnecessary access-code exposure from client-facing pages and outreach copy.
 - [x] Repair the GitHub Pages presentation as a clean standalone Didi Meuble showroom with direct WhatsApp contact and no platform-domain exposure.
 - [x] Push and verify the clean GitHub Pages presentation and public repository description after the attribution removal.
+- [ ] Rewrite public GitHub commit metadata to remove the unwanted manus-agent contributor identity and force-push the clean history.
+- [ ] Restore a rich 3D animated furniture experience to GitHub Pages using local browser graphics without external provider branding.
+- [ ] Build a more attractive Blu Dot-inspired hero and category-led catalogue with one authentic Didi furniture photo per collection.
+- [ ] Verify the contributor list, GitHub Pages 3D/hero/product experience, and mobile presentation after publishing the correction.
