@@ -1,33 +1,67 @@
-import { useAuth } from "@/_core/hooks/useAuth";
+import DidiLogo from "@/components/DidiLogo";
 import { Button } from "@/components/ui/button";
-import { Loader2 } from "lucide-react";
-import { Streamdown } from 'streamdown';
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { Textarea } from "@/components/ui/textarea";
+import { trpc } from "@/lib/trpc";
+import { ArrowDownLeft, ArrowUpLeft, Box, Check, ChevronLeft, Compass, Grid2X2, Menu, MessageCircle, Minus, Plus, ShoppingBag, Sparkles, Truck, X } from "lucide-react";
+import { lazy, Suspense, useEffect, useMemo, useState } from "react";
+import { Link } from "wouter";
 
-/**
- * All content in this page are only for example, replace with your own feature implementation
- * When building pages, remember your instructions in Frontend Workflow, Frontend Best Practices, Design Guide and Common Pitfalls
- */
+const FurnitureStage = lazy(() => import("@/components/FurnitureStage"));
+type Category = "all" | "bedrooms" | "sofas" | "kids";
+type Product = { id: string; category: Exclude<Category, "all">; ar: string; fr: string; price: number; dimensions: string; tag: string; tone: string; image: string };
+
+const products: Product[] = [
+  { id: "oasis", category: "bedrooms", ar: "غرفة نوم الواحة", fr: "Chambre Oasis", price: 289000, dimensions: "220 × 180 × 120 cm", tag: "جوز طبيعي", tone: "noir", image: "/manus-storage/didi-bedroom-collection_5074fd20.jpg" },
+  { id: "nour", category: "sofas", ar: "صالون نور", fr: "Salon Nour", price: 198000, dimensions: "310 × 190 × 88 cm", tag: "كتان رملي", tone: "sable", image: "/manus-storage/didi-sofa-collection_80a4f0e9.jpg" },
+  { id: "bidaya", category: "kids", ar: "غرفة أطفال بداية", fr: "Chambre Enfant Bidaya", price: 174000, dimensions: "240 × 160 × 210 cm", tag: "خشب مصقول", tone: "ambre", image: "/manus-storage/didi-kids-collection_5c4ec337.jpg" },
+];
+
+const labels = { all: ["كل القطع", "Toutes les pièces"], bedrooms: ["غرف نوم", "Bedrooms"], sofas: ["أرائك", "Sofas"], kids: ["غرف أطفال", "Children’s Rooms"] } as const;
+const heroImage = "/manus-storage/didi-workshop-hero_e665d0ab.jpg";
+const formatDzd = (price: number) => `${price.toLocaleString("fr-FR")} دج`;
+
 export default function Home() {
-  // The useAuth hook provides authentication state.
-  // To implement login/logout, call logout(), or start login from an event
-  // handler: onClick={() => startLogin()} (imported from "@/const"). Never call
-  // startLogin() during render (no href={startLogin()}) — it mints a one-time
-  // nonce cookie and must run only at the moment of navigation.
-  let { user, loading, error, isAuthenticated, logout } = useAuth();
+  const [language, setLanguage] = useState<"ar" | "fr">("ar");
+  const [filter, setFilter] = useState<Category>("all");
+  const [selected, setSelected] = useState<Product | null>(null);
+  const [mobileOpen, setMobileOpen] = useState(false);
+  const [stage, setStage] = useState<Exclude<Category, "all">>("bedrooms");
+  const [tone, setTone] = useState<"walnut" | "honey" | "ivory">("walnut");
+  const filtered = useMemo(() => filter === "all" ? products : products.filter(product => product.category === filter), [filter]);
+  const french = language === "fr";
 
-  // If theme is switchable in App.tsx, we can implement theme toggling like this:
-  // const { theme, toggleTheme } = useTheme();
+  useEffect(() => { document.documentElement.lang = french ? "fr" : "ar"; document.documentElement.dir = french ? "ltr" : "rtl"; }, [french]);
 
-  return (
-    <div className="min-h-screen flex flex-col">
-      <main>
-        {/* Example: lucide-react for icons */}
-        <Loader2 className="animate-spin" />
-        Example Page
-        {/* Example: Streamdown for markdown rendering */}
-        <Streamdown>Any **markdown** content</Streamdown>
-        <Button variant="default">Example Button</Button>
-      </main>
-    </div>
-  );
+  return <div className="site-shell" dir={french ? "ltr" : "rtl"}>
+    <header className="site-header">
+      <a href="#top" className="brand-link"><DidiLogo /></a>
+      <nav className={mobileOpen ? "nav-links is-open" : "nav-links"}>
+        <a href="#collections" onClick={() => setMobileOpen(false)}>{french ? "Collections" : "المجموعات"}</a><a href="#craft" onClick={() => setMobileOpen(false)}>{french ? "Craft" : "الحرفة"}</a><a href="#delivery" onClick={() => setMobileOpen(false)}>{french ? "Delivery" : "التوصيل"}</a><a href="#contact" onClick={() => setMobileOpen(false)}>{french ? "Contact" : "تواصل"}</a>
+      </nav>
+      <div className="header-actions"><button className="language-toggle" onClick={() => setLanguage(french ? "ar" : "fr")}>{french ? "العربية" : "FR"}</button><button className="menu-toggle" aria-label="فتح القائمة" onClick={() => setMobileOpen(!mobileOpen)}>{mobileOpen ? <X /> : <Menu />}</button></div>
+    </header>
+    <main id="top">
+      <section className="hero">
+        <div className="hero__media"><img src={heroImage} alt="ورشة وأثاث ديدي" fetchPriority="high" /><div className="hero__grain" /></div>
+        <div className="hero__copy"><p className="eyebrow">من حي المصاعبة · الوادي</p><h1>ديدي عملاق صناعة الأثاث في الجزائر</h1><p>{french ? "Une maison de meubles conçue à El Oued, pour accompagner les foyers algériens avec présence et précision." : "بيت من الخشب والذاكرة. نصنع تفاصيل تليق ببيوت الجزائر، من ورشة الوادي إلى باب منزلك."}</p><div className="hero__actions"><Button onClick={() => document.getElementById("collections")?.scrollIntoView({ behavior: "smooth" })}>{french ? "Explorer les pièces" : "اكتشف القطع"} <ArrowDownLeft /></Button><a className="text-button" href="#contact">{french ? "Parler à l’atelier" : "تواصل مع الورشة"} <ArrowUpLeft /></a></div></div>
+        <div className="hero__mark"><span>01</span><i /> <b>{french ? "Du bois au foyer" : "من الخشب إلى البيت"}</b></div>
+      </section>
+      <section className="trust-strip"><div><Box /><span>{french ? "Fabrication locale" : "صناعة محلية"}</span></div><div><Truck /><span>{french ? "Delivery confirmation" : "توصيل حسب الولاية"}</span></div><div><Sparkles /><span>{french ? "Thoughtful finishes" : "تشطيبات مدروسة"}</span></div><div><Compass /><span>{french ? "El Oued, Algeria" : "الوادي، الجزائر"}</span></div></section>
+      <section className="craft-section" id="craft"><div className="section-intro"><p className="eyebrow">{french ? "La matière, avant tout" : "المادة أولاً"}</p><h2>{french ? "Une pièce se dessine dans la lumière de l’atelier." : "كل قطعة تبدأ من ضوء الورشة."}</h2></div><div className="craft-scroll"><article><span>01</span><h3>{french ? "Le choix" : "الاختيار"}</h3><p>{french ? "Des matières, des proportions, et une intention juste pour le quotidien." : "خامات ونسب وفكرة دقيقة قبل أن تبدأ أي يد بالعمل."}</p></article><article><span>02</span><h3>{french ? "La main" : "اليد"}</h3><p>{french ? "Les volumes trouvent leur équilibre à travers le geste et le détail." : "تجد القطعة توازنها بين يد الصانع والتفاصيل الصغيرة."}</p></article><article><span>03</span><h3>{french ? "La maison" : "البيت"}</h3><p>{french ? "Une présence durable qui s’installe dans les souvenirs de famille." : "حضور يدوم ويصير جزءاً من ذاكرة العائلة."}</p></article></div></section>
+      <section className="studio-section"><div className="studio-copy"><p className="eyebrow">DIDI / MATERIAL STUDY</p><h2>{french ? "Touchez le volume, observez la matière." : "حرّك القطعة، واكتشف الخامة."}</h2><p>{french ? "Une étude 3D de nos trois univers. Faites tourner la forme pour voir comment la matière porte la lumière." : "دراسة ثلاثية الأبعاد لثلاثة عوالم من ديدي. حرّك الشكل وشاهد كيف تحمل الخامة الضوء."}</p><div className="studio-tabs">{(["bedrooms", "sofas", "kids"] as const).map(kind => <button key={kind} className={stage === kind ? "active" : ""} onClick={() => setStage(kind)}>{labels[kind][french ? 1 : 0]}</button>)}</div><div className="material-swatches">{(["walnut", "honey", "ivory"] as const).map(material => <button key={material} className={`swatch ${material} ${tone === material ? "active" : ""}`} onClick={() => setTone(material)} aria-label={material}><i /></button>)}</div><small>{french ? "Glissez pour tourner · choisissez une finition" : "اسحب للدوران · اختر التشطيب"}</small></div><div className="stage-wrap"><Suspense fallback={<div className="stage-fallback" />}><FurnitureStage kind={stage} tone={tone} /></Suspense><div className="stage-caption"><span>{stage === "bedrooms" ? "01" : stage === "sofas" ? "02" : "03"}</span><b>{labels[stage][french ? 1 : 0]}</b></div></div></section>
+      <section className="collection-section" id="collections"><div className="collection-heading"><div><p className="eyebrow">{french ? "Sélection de présentation" : "نماذج الواجهة"}</p><h2>{french ? "Trois façons d’habiter." : "ثلاث طرق ليشبه البيتُ أهله."}</h2></div><p>{french ? "The prices and dimensions shown are presentation examples. Confirm every detail with the workshop." : "الأسعار والأبعاد التالية أمثلة للعرض؛ تواصل مع الورشة لتأكيد التفاصيل والخيارات المتاحة."}</p></div><div className="filters" role="tablist">{(["all", "bedrooms", "sofas", "kids"] as const).map(category => <button key={category} className={filter === category ? "active" : ""} onClick={() => setFilter(category)}>{labels[category][french ? 1 : 0]}</button>)}</div><div className="product-grid">{filtered.map((product, index) => <article className={`product-card ${product.tone}`} key={product.id}><div className="product-card__visual"><img src={product.image} alt={french ? product.fr : product.ar} loading="lazy" /><span>{String(index + 1).padStart(2, "0")}</span></div><div className="product-card__content"><p>{product.tag}</p><h3>{french ? product.fr : product.ar}</h3><span className="product-card__fr">{french ? product.ar : product.fr}</span><div className="product-meta"><b>{formatDzd(product.price)}</b><small>{product.dimensions}</small></div><button onClick={() => setSelected(product)}>{french ? "Request delivery" : "اطلب التوصيل"} <ChevronLeft size={18} /></button></div></article>)}</div></section>
+      <section className="delivery-section" id="delivery"><div><p className="eyebrow">{french ? "Simple, accompagné" : "ببساطة ومعك"}</p><h2>{french ? "Your request reaches the workshop, not a black box." : "طلبك يصل إلى الورشة، لا إلى صندوق مجهول."}</h2></div><div className="delivery-steps"><article><span>1</span><h3>{french ? "Choose" : "اختر"}</h3><p>{french ? "Choose a piece or exchange directly with Didi." : "اختر قطعة أو تحدث مباشرة مع ديدي."}</p></article><article><span>2</span><h3>{french ? "Address" : "اكتب عنوانك"}</h3><p>{french ? "Wilaya, commune and delivery details are captured separately." : "الولاية والبلدية وتفاصيل الوصول في حقول واضحة."}</p></article><article><span>3</span><h3>{french ? "Confirmation" : "نؤكد معك"}</h3><p>{french ? "The workshop confirms availability, lead time and delivery." : "تؤكد الورشة التوفر والموعد وطريقة التوصيل."}</p></article></div></section>
+      <section className="contact-section" id="contact"><div className="contact-card"><DidiLogo /><p className="eyebrow">{french ? "Visiter / Appeler" : "زيارة / اتصال"}</p><h2>{french ? "The workshop is in El Oued." : "الورشة في الوادي."}</h2><p>{french ? "Hay El Massaaba, near the El Oued commune, Algeria." : "حي المصاعبة بالقرب من بلدية الوادي، الوادي، الجزائر."}</p><a className="contact-phone" href="tel:+213699298059">+213 699 29 80 59</a><div className="contact-actions"><a href="https://wa.me/213699298059?text=%D8%A7%D9%84%D8%B3%D9%84%D8%A7%D9%85%20%D8%B9%D9%84%D9%8A%D9%83%D9%85%D8%8C%20%D8%A3%D8%B1%D9%8A%D8%AF%20%D8%A7%D9%84%D8%A7%D8%B3%D8%AA%D9%81%D8%B3%D8%A7%D8%B1%20%D8%B9%D9%86%20%D8%A3%D8%AB%D8%A7%D8%AB%20%D8%AF%D9%8A%D8%AF%D9%8A" target="_blank" rel="noreferrer"><MessageCircle /> WhatsApp</a><a href="https://www.google.com/maps/search/?api=1&query=%D8%AD%D9%8A+%D8%A7%D9%84%D9%85%D8%B5%D8%A7%D8%B9%D8%A8%D8%A9+%D8%A8%D8%A7%D9%84%D9%82%D8%B1%D8%A8+%D9%85%D9%86+%D8%A8%D9%84%D8%AF%D9%8A%D8%A9+%D8%A7%D9%84%D9%88%D8%A7%D8%AF%D9%8A" target="_blank" rel="noreferrer"><Compass /> {french ? "Directions" : "الاتجاهات"}</a></div><small>{french ? "Curbside pickup is available after confirmation." : "الاستلام من الورشة متاح بعد التأكيد."}</small></div><div className="contact-art"><span>EL OUED</span><Grid2X2 /><p>{french ? "Near the commune" : "بالقرب من البلدية"}</p></div></section>
+    </main>
+    <footer><DidiLogo compact /><span>© {new Date().getFullYear()} Didi Meuble</span><Link href="/atelier">{french ? "Atelier" : "فضاء المالك"}</Link></footer>
+    {selected && <OrderDialog product={selected} close={() => setSelected(null)} french={french} />}
+  </div>;
+}
+
+function OrderDialog({ product, close, french }: { product: Product; close: () => void; french: boolean }) {
+  const [quantity, setQuantity] = useState(1); const [reference, setReference] = useState<string | null>(null);
+  const createOrder = trpc.storefront.orders.create.useMutation({ onSuccess: data => setReference(data.reference) });
+  return <div className="dialog-backdrop" role="presentation"><section className="order-dialog" role="dialog" aria-modal="true" aria-label="طلب التوصيل"><button className="dialog-close" onClick={close} aria-label="إغلاق"><X /></button>{reference ? <div className="order-success"><Check /><p className="eyebrow">{french ? "Request saved" : "تم حفظ الطلب"}</p><h2>{french ? "The workshop received your request." : "وصل طلبك إلى الورشة."}</h2><p>{french ? "Your reference:" : "مرجعك:"} <strong>{reference}</strong></p><Button onClick={close}>{french ? "Back to collection" : "العودة إلى المجموعة"}</Button></div> : <><p className="eyebrow">{french ? "Delivery inquiry" : "طلب توصيل"}</p><h2>{french ? product.fr : product.ar}</h2><p className="dialog-subtitle">{formatDzd(product.price)} · {product.dimensions}</p><form onSubmit={(event) => { event.preventDefault(); const data = new FormData(event.currentTarget); createOrder.mutate({ customerName: String(data.get("customerName")), phone: String(data.get("phone")), wilaya: String(data.get("wilaya")), commune: String(data.get("commune")), address: String(data.get("address")), productLabel: `${product.ar} / ${product.fr}`, quantity, notes: String(data.get("notes")) || null }); }}><div className="quantity-control"><span>{french ? "Quantity" : "الكمية"}</span><div><button type="button" onClick={() => setQuantity(Math.max(1, quantity - 1))}><Minus size={15} /></button><b>{quantity}</b><button type="button" onClick={() => setQuantity(Math.min(20, quantity + 1))}><Plus size={15} /></button></div></div><div className="form-row"><div><Label htmlFor="customerName">{french ? "Full name" : "الاسم الكامل"}</Label><Input id="customerName" name="customerName" minLength={2} required /></div><div><Label htmlFor="phone">{french ? "Phone" : "رقم الهاتف"}</Label><Input id="phone" name="phone" placeholder="+213 …" required /></div></div><div className="form-row"><div><Label htmlFor="wilaya">{french ? "Wilaya" : "الولاية"}</Label><Input id="wilaya" name="wilaya" defaultValue="El Oued" required /></div><div><Label htmlFor="commune">{french ? "Commune" : "البلدية"}</Label><Input id="commune" name="commune" required /></div></div><Label htmlFor="address">{french ? "Detailed address" : "العنوان التفصيلي"}</Label><Textarea id="address" name="address" minLength={6} required placeholder={french ? "District, street, landmark…" : "الحي، الشارع، علامة قريبة…"} /><Label htmlFor="notes">{french ? "Optional note" : "ملاحظة اختيارية"}</Label><Textarea id="notes" name="notes" /><Button type="submit" disabled={createOrder.isPending}>{createOrder.isPending ? (french ? "Saving…" : "جارٍ الإرسال…") : (french ? "Send request" : "إرسال الطلب")} <ShoppingBag /></Button>{createOrder.error && <p className="form-error">{french ? "The request could not be saved. Please call the workshop." : "تعذر حفظ الطلب. يرجى الاتصال بالورشة مباشرة."}</p>}</form></>}</section></div>;
 }

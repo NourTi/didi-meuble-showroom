@@ -1,6 +1,6 @@
-import { eq } from "drizzle-orm";
+import { desc, eq } from "drizzle-orm";
 import { drizzle } from "drizzle-orm/mysql2";
-import { InsertUser, users } from "../drizzle/schema";
+import { InsertOrderRequest, InsertProduct, InsertUser, orderRequests, products, users } from "../drizzle/schema";
 import { ENV } from './_core/env';
 
 let _db: ReturnType<typeof drizzle> | null = null;
@@ -89,4 +89,37 @@ export async function getUserByOpenId(openId: string) {
   return result.length > 0 ? result[0] : undefined;
 }
 
-// TODO: add feature queries here as your schema grows.
+function requireDatabase<T>(db: T | null): T {
+  if (!db) throw new Error("Database is not available");
+  return db;
+}
+
+export async function listManagedProducts() {
+  const db = requireDatabase(await getDb());
+  return db.select().from(products).orderBy(desc(products.isFeatured), desc(products.createdAt));
+}
+
+export async function createManagedProduct(product: InsertProduct) {
+  const db = requireDatabase(await getDb());
+  await db.insert(products).values(product);
+}
+
+export async function updateManagedProduct(id: number, product: Partial<InsertProduct>) {
+  const db = requireDatabase(await getDb());
+  await db.update(products).set(product).where(eq(products.id, id));
+}
+
+export async function deleteManagedProduct(id: number) {
+  const db = requireDatabase(await getDb());
+  await db.delete(products).where(eq(products.id, id));
+}
+
+export async function createOrderRequest(order: InsertOrderRequest) {
+  const db = requireDatabase(await getDb());
+  await db.insert(orderRequests).values(order);
+}
+
+export async function listOrderRequests() {
+  const db = requireDatabase(await getDb());
+  return db.select().from(orderRequests).orderBy(desc(orderRequests.createdAt));
+}
