@@ -54,7 +54,8 @@
         document.querySelectorAll('[data-model]').forEach(button=>button.addEventListener('click',()=>activate(button.dataset.model)));
         canvas.addEventListener('pointerdown',e=>{drag=true;lastX=e.clientX;canvas.setPointerCapture(e.pointerId)});canvas.addEventListener('pointermove',e=>{if(!drag)return;targetY+=(e.clientX-lastX)*.012;lastX=e.clientX});canvas.addEventListener('pointerup',()=>drag=false);canvas.addEventListener('pointerleave',()=>drag=false);
         const resize=()=>{const r=canvas.getBoundingClientRect();renderer.setSize(r.width,r.height,false);camera.aspect=r.width/r.height;camera.updateProjectionMatrix()};new ResizeObserver(resize).observe(canvas);resize();
-        renderer.setAnimationLoop(()=>{const g=groups[active];g.rotation.y+=(targetY-g.rotation.y)*.08;if(!drag)targetY+=.0022;renderer.render(scene,camera)});
+        const render=()=>{const g=groups[active];g.rotation.y+=(targetY-g.rotation.y)*.08;if(!drag)targetY+=.0022;renderer.render(scene,camera);requestAnimationFrame(render)};
+        render();
       })();
     </script>
   </body>
