@@ -15,3 +15,9 @@
 - [x] Rebuild the hero around actual Didi furniture, a stronger Algerian craft identity, and a more distinctive non-template visual system.
 - [x] Implement a robust, genuine local Three.js product experience that does not depend on a fragile remote script.
 - [x] Re-run production, desktop, and mobile verification after the repair; save a new stable checkpoint.
+- [x] Verify the current temporary preview status and explain the public publication path to resolve the refused-connection report.
+- [x] Identify whether a stable public deployment exists, diagnose why the user still cannot reach it, and validate the durable access route.
+- [x] Analyze Blu Dot’s public retail experience for transferable layout, navigation, product storytelling, and interaction patterns without copying its branding or content.
+- [x] Redesign Didi’s product-led pages with the resulting premium retail principles while preserving authentic El Oued identity and local Three.js functionality.
+- [x] Revalidate public access, desktop/mobile product browsing, 3D interaction, and ordering after the redesign; save a stable checkpoint.
+- [x] Open and verify the published didimeuble-ipu7l4nk.manus.space route, including its access code behavior and live asset delivery.
