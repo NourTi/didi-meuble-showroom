@@ -36,3 +36,4 @@
 - [ ] Restore a rich 3D animated furniture experience to GitHub Pages using local browser graphics without external provider branding.
 - [ ] Build a more attractive Blu Dot-inspired hero and category-led catalogue with one authentic Didi furniture photo per collection.
 - [ ] Verify the contributor list, GitHub Pages 3D/hero/product experience, and mobile presentation after publishing the correction.
+- [ ] Add the missing local Three.js core module required by the GitHub Pages ES-module build and verify the public canvas renders.
