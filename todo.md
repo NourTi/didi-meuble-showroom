@@ -21,3 +21,5 @@
 - [x] Redesign Didi’s product-led pages with the resulting premium retail principles while preserving authentic El Oued identity and local Three.js functionality.
 - [x] Revalidate public access, desktop/mobile product browsing, 3D interaction, and ordering after the redesign; save a stable checkpoint.
 - [x] Open and verify the published didimeuble-ipu7l4nk.manus.space route, including its access code behavior and live asset delivery.
+- [ ] Export the completed Didi Meuble project to a new private GitHub repository and verify its remote state.
+- [ ] Write a concise Darija outreach message that presents the free concept, communicates genuine appreciation for Didi’s content and emotional shop inauguration, and proposes the next paid growth stage only if welcomed.
