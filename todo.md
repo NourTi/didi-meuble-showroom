@@ -41,5 +41,8 @@
 - [x] Capture reproducible mobile browser DOM evidence for the published hero, category controls, product card, and active Three.js canvas.
 - [x] Verify rendered Three.js furniture pixels in the screenshot-backed phone viewport capture, independent of the WebGL drawing-buffer readback setting.
 - [x] Prove the mobile furniture geometry with region-specific image evidence that distinguishes the model from the dark stage background.
-- [ ] Relocate the existing GitHub Pages bedroom, salon, and children’s-room photos to approved hosted storage without changing their visible use in the showroom.
-- [ ] Revalidate the three photo cards and save the previously blocked final project checkpoint.
+- [x] Relocate the existing GitHub Pages bedroom, salon, and children’s-room photos to approved hosted storage without changing their visible use in the showroom.
+- [x] Revalidate the three photo cards after the managed-storage migration.
+- [x] Retry the previously blocked final project checkpoint after removal of the large repository image files.
+- [ ] Add compressed repository copies of the bedroom and salon photos, plus clean site screenshots, without exceeding the checkpoint media limit.
+- [ ] Publish and verify the repository asset gallery and the live GitHub Pages presentation after the additions.

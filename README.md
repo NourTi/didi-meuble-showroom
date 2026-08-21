@@ -16,6 +16,18 @@ An Arabic-first furniture showroom and delivery-inquiry foundation for **Didi Me
 
 The repository’s GitHub Pages site is a lightweight static introduction to the Didi Meuble showroom. The working application runs separately because it includes server-side validation, database persistence, protected owner tools, and inquiry notifications.
 
+## Repository gallery
+
+The repository includes compact preview copies of the bedroom and salon photography, alongside two website views. The live presentation retains the same collection photos through managed storage.
+
+| Bedroom collection | Salon collection |
+| --- | --- |
+| ![Bedroom furniture preview](docs/assets/repository-gallery/bedroom-photo.webp) | ![Salon furniture preview](docs/assets/repository-gallery/salon-photo.webp) |
+
+| Website hero | Interactive 3D study |
+| --- | --- |
+| ![Didi Meuble website hero preview](docs/assets/repository-gallery/site-hero.webp) | ![Didi Meuble Three.js study preview](docs/assets/repository-gallery/site-3d-study.webp) |
+
 ## Local development
 
 ```bash
